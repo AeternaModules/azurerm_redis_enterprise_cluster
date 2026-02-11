@@ -17,7 +17,7 @@ EOT
     name                = string
     resource_group_name = string
     sku_name            = string
-    minimum_tls_version = optional(string, "1.2")
+    minimum_tls_version = optional(string) # Default: "1.2"
     tags                = optional(map(string))
     zones               = optional(set(string))
   }))
