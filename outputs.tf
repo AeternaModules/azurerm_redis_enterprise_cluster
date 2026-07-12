@@ -1,3 +1,7 @@
+output "redis_enterprise_clusters_id" {
+  description = "Map of id values across all redis_enterprise_clusters, keyed the same as var.redis_enterprise_clusters"
+  value       = { for k, v in azurerm_redis_enterprise_cluster.redis_enterprise_clusters : k => v.id }
+}
 output "redis_enterprise_clusters_hostname" {
   description = "Map of hostname values across all redis_enterprise_clusters, keyed the same as var.redis_enterprise_clusters"
   value       = { for k, v in azurerm_redis_enterprise_cluster.redis_enterprise_clusters : k => v.hostname }
