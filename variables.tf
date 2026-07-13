@@ -17,18 +17,10 @@ EOT
     name                = string
     resource_group_name = string
     sku_name            = string
-    minimum_tls_version = optional(string) # Default: "1.2"
+    minimum_tls_version = optional(string)
     tags                = optional(map(string))
     zones               = optional(set(string))
   }))
-  validation {
-    condition = alltrue([
-      for k, v in var.redis_enterprise_clusters : (
-        v.zones == null || (length(v.zones) > 0)
-      )
-    ])
-    error_message = "must not be empty"
-  }
   # --- Unconfirmed validation candidates, derived from azurerm_redis_enterprise_cluster's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
   # or a path that crosses a list-typed block (needs its own for_each wrapping).
@@ -75,6 +67,9 @@ EOT
   #   source:    [from validate.RedisEnterpriseClusterSkuName] !validSku
   # path: sku_name
   #   source:    [from validate.RedisEnterpriseClusterSkuName] !validCapacity
+  # path: zones[*]
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: minimum_tls_version
   #   source:    validation.StringInSlice value list is not a literal []string - likely a generated PossibleValuesFor*() helper; resolve separately
   # path: tags
